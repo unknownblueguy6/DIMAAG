@@ -1,4 +1,9 @@
 from matrix import *
+import math
+
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
 
 class NeuralNetwork:
     def __init__(self, noOfInputNeurons, hiddenLayerNeuronsNos, noOfOutputNeurons):
@@ -33,26 +38,21 @@ class NeuralNetwork:
             else:
                 self.weightsMatrices.append(Matrix(self.hiddenLayerNeuronsNos[j], self.hiddenLayerNeuronsNos[j-1]))
 
-    def feedforward(self, inputList):
+    def feedforward(self, inputList, activationFunc = sigmoid):
         self.inputNeuronMatrix = Matrix.toMatrix(inputList)
 
         for i in range(self.noOfHiddenLayers + 1):
 
             if   i == 0:
-                self.hiddenLayerMatrices[i] = (self.weightsMatrices[i] ** self.inputNeuronMatrix       ) + self.hiddenBiasesMatrices[i] 
+                self.hiddenLayerMatrices[i] = (self.weightsMatrices[i] ** self.inputNeuronMatrix       ) + self.hiddenBiasesMatrices[i]
+                self.hiddenLayerMatrices[i].mapfunc(activationFunc) 
             
             elif i == self.noOfHiddenLayers:
                 self.outputNeuronMatrix     = (self.weightsMatrices[i] ** self.hiddenLayerMatrices[i-1]) + self.outputBiasesMatrix
+                self.outputNeuronMatrix.mapfunc(activationFunc)
             
             else:
                 self.hiddenLayerMatrices[i] = (self.weightsMatrices[i] ** self.hiddenLayerMatrices[i-1]) + self.hiddenBiasesMatrices[i]
+                self.hiddenLayerMatrices[i].mapfunc(activationFunc)
         
         return (Matrix.toList(self.outputNeuronMatrix))
-
-
-
-
-        
-
-
-
