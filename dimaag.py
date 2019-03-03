@@ -7,15 +7,19 @@ class NeuralNetwork:
         self.noOfHiddenLayers      = len(hiddenLayerNeuronsNos)
         self.hiddenLayerNeuronsNos = []
         
-        for hiddenLayer in hiddenLayerNeuronsNos:
-            self.hiddenLayerNeuronsNos.append(hiddenLayer)
+        for hiddenLayerNo in hiddenLayerNeuronsNos:
+            self.hiddenLayerNeuronsNos.append(hiddenLayerNo)
 
-        self.inputNeuronMatrix   = Matrix(noOfInputNeurons, 1)
-        self.outputNeuronMatrix  = Matrix(noOfOutputNeurons, 1)
+        self.inputNeuronMatrix   = Matrix(noOfInputNeurons, 1, False)
+        self.outputNeuronMatrix  = Matrix(noOfOutputNeurons, 1, False)
         self.hiddenLayerMatrices = []
         
+        self.hiddenBiasesMatrices = []
+        self.outputBiasesMatrix = Matrix(noOfOutputNeurons, 1)
+
         for i in range(self.noOfHiddenLayers):
-            self.hiddenLayerMatrices.append(Matrix(self.hiddenLayerNeuronsNos[i], 1))
+            self.hiddenLayerMatrices.append(Matrix(self.hiddenLayerNeuronsNos[i], 1, False))
+            self.hiddenBiasesMatrices.append(Matrix(self.hiddenLayerNeuronsNos[i], 1))
 
         self.weightsMatrices = []
 
@@ -28,6 +32,27 @@ class NeuralNetwork:
             
             else:
                 self.weightsMatrices.append(Matrix(self.hiddenLayerNeuronsNos[j], self.hiddenLayerNeuronsNos[j-1]))
+
+    def feedforward(self, inputList):
+        self.inputNeuronMatrix = Matrix.toMatrix(inputList)
+
+        for i in range(self.noOfHiddenLayers + 1):
+
+            if   i == 0:
+                self.hiddenLayerMatrices[i] = (self.weightsMatrices[i] ** self.inputNeuronMatrix       ) + self.hiddenBiasesMatrices[i] 
+            
+            elif i == self.noOfHiddenLayers:
+                self.outputNeuronMatrix     = (self.weightsMatrices[i] ** self.hiddenLayerMatrices[i-1]) + self.outputBiasesMatrix
+            
+            else:
+                self.hiddenLayerMatrices[i] = (self.weightsMatrices[i] ** self.hiddenLayerMatrices[i-1]) + self.hiddenBiasesMatrices[i]
+        
+        return (Matrix.toList(self.outputNeuronMatrix))
+
+
+
+
+        
 
 
 

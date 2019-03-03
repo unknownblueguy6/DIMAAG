@@ -34,4 +34,6 @@ from dimaag import *
 # i = i.transpose();
 # i.show();
 
-nn = NeuralNetwork(3, [2], 1)
+nn = NeuralNetwork(2, [2], 1)
+s  = nn.feedforward([0, 1])
+print(s)
