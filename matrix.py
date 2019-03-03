@@ -1,11 +1,20 @@
 import random
 
 class Matrix:
-    def __init__(self, r, c):
+    def randomize(self):
+        random.seed()
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.data[i][j] = 2 * random.random() - 1
+                #self.data[i][j] = random.randint(0, 9)
+
+    def __init__(self, r, c, makeRandom = True):
         self.rows = r
         self.cols = c
         self.data = [[0 for j in range(self.cols)] for i in range(self.rows)]
         
+        if makeRandom:
+            self.randomize()
         # else:
         #     for i in self.rows:
         #         self.data.append([])
@@ -17,15 +26,9 @@ class Matrix:
             for j in range(self.cols):
                 self.data[i][j] = func(self.data[i][j])
     
-    def randomize(self):
-        random.seed()
-        for i in range(self.rows):
-            for j in range(self.cols):
-                #element = 2 * random.random() - 1
-                self.data[i][j] = random.randint(0, 9)
                 
     def copy(self):
-        copy = Matrix(self.rows, self.cols)
+        copy = Matrix(self.rows, self.cols, False)
 
         for i in range(self.rows):
                 for j in range(self.cols):
@@ -72,7 +75,7 @@ class Matrix:
         return copy
 
     def __pow__(self, other):
-        ans = Matrix(self.rows, other.cols)
+        ans = Matrix(self.rows, other.cols, False)
 
         #Normal product
 
@@ -88,10 +91,26 @@ class Matrix:
         return ans
 
     def transpose(self):
-        trans = Matrix(self.cols, self.rows)
+        trans = Matrix(self.cols, self.rows, False)
 
         for i in range(self.rows):
             for j in range(self.cols):
                 trans.data[j][i] = self.data[i][j]
         
         return trans
+
+    @staticmethod
+    def toMatrix(givenList):
+        mat = Matrix(len(givenList), 1, False)
+        for i in range(mat.rows):
+            mat.data[i][0] = givenList[i]
+
+        return mat
+    
+    @staticmethod
+    def toList(givenMatrix):
+        l = []
+        for i in range(givenMatrix.rows):
+            l.append(givenMatrix.data[i][0])
+        
+        return l
