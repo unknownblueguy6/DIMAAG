@@ -8,9 +8,9 @@ class Matrix:
                 self.data[i][j] = 2 * random.random() - 1
                 #self.data[i][j] = random.randint(0, 9)
 
-    def __init__(self, r, c, makeRandom = True):
-        self.rows = r
-        self.cols = c
+    def __init__(self, rows, cols, makeRandom = True):
+        self.rows = rows
+        self.cols = cols
         self.data = [[0 for j in range(self.cols)] for i in range(self.rows)]
         
         if makeRandom:
