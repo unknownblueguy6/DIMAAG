@@ -18,7 +18,7 @@ from dimaag import *
 # d.show();
 # e = a + 5.32
 # e.show()
-# f = a * 10
+# f = 10.111 * a
 # f.show()
 
 
@@ -34,6 +34,28 @@ from dimaag import *
 # i = i.transpose();
 # i.show();
 
-nn = NeuralNetwork(2, [2], 1)
-s  = nn.feedforward([0, 1])
-print(s)
+
+
+nn = NeuralNetwork(2, [4, 4], 1)
+print(nn.feedforward([0, 1]))
+print(nn.feedforward([1, 0]))
+print(nn.feedforward([0, 0]))
+print(nn.feedforward([1, 1]))
+
+#XOR Gate
+inputs = [
+    [[0, 1], [1]],
+    [[1, 0], [1]],
+    [[0, 0], [0]],
+    [[1, 1], [0]]
+]
+
+for i in range(10000):
+    s = random.randint(0, 3)
+    i, t = inputs[s][0], inputs[s][1]
+    nn.backpropogate([i], [t])
+
+print(nn.feedforward([0, 1]))
+print(nn.feedforward([1, 0]))
+print(nn.feedforward([0, 0]))
+print(nn.feedforward([1, 1]))
