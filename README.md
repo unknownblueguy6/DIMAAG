@@ -7,3 +7,5 @@ This is only meant to be a learning exercise, as obviously there are much better
 
 run tester.py to see an example of an XOR gate
 
+## TODO:
+replace own matrix class with numpy matrices
