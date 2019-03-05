@@ -58,6 +58,21 @@ class Matrix:
         
         return copy
 
+    def __sub__(self, other):
+        copy = self.copy()
+        
+        if(type(other) == Matrix):
+            for i in range(copy.rows):
+                for j in range(copy.cols):
+                    copy.data[i][j] -= other.data[i][j]
+
+        else:
+            for i in range(copy.rows):
+                for j in range(copy.cols):
+                    copy.data[i][j] -= other
+        
+        return copy
+
     def __mul__(self, other):
         copy = self.copy()
         
