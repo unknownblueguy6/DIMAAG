@@ -4,3 +4,6 @@ A Python3 neural network library heavily inspired by this [repo](https://github.
 
 
 This is only meant to be a learning exercise, as obviously there are much better and faster alternatives.
+
+run tester.py to see an example of an XOR gate
+
